@@ -2,6 +2,7 @@ import Input from "../Input"
 import styled from 'styled-components'
 import { useEffect, useState } from "react";
 import { getLivros } from "../../services/livro"
+ 
 
 
 const PesquisaContainer = styled.section`
@@ -48,13 +49,14 @@ function Pesquisa() {
     const [livros, setLivros] = useState([])
 
         useEffect(() =>  {const livroAPI = getLivros()
-            setLivros(livroAPI) 
+            fetchLivros()
         }, [])
 
         async function fetchLivros() {
-            const livroAPI = getLivros()
+            const livroAPI = await getLivros()
             setLivros(livroAPI) 
         }
+        
     return (
         <PesquisaContainer>
             <Titulo>Já sabe por onde começar?</Titulo>
