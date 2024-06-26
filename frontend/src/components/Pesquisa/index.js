@@ -1,8 +1,9 @@
-import Input from "../Input"
+import Input from "../Input";
 import styled from 'styled-components'
-import { useEffect, useState } from "react";
-import { getLivros } from "../../services/livro"
- 
+import { useState } from "react";
+import { getLivros } from "../../services/livro.js";
+import { useEffect } from "react";
+import { postFavorito } from "../../services/favoritos.js";
 
 
 const PesquisaContainer = styled.section`
@@ -13,20 +14,17 @@ const PesquisaContainer = styled.section`
     height: 470px;
     width: 100%;
 `
-
 const Titulo = styled.h2`
     color: #FFF;
     font-size: 36px;
     text-align: center;
     width: 100%;
 `
-
 const Subtitulo = styled.h3`
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 40px;
 `
-
 const Resultado = styled.div`
    display: flex;
    justify-content: center;
@@ -44,19 +42,25 @@ const Resultado = styled.div`
    }
 `
 
+
 function Pesquisa() {
     const [livrosPesquisados, setLivrosPesquisados] = useState([])
-    const [livros, setLivros] = useState([])
+    const [ livros , setLivros ] = useState([])
 
-        useEffect(() =>  {const livroAPI = getLivros()
+        useEffect(() => {
             fetchLivros()
         }, [])
 
-        async function fetchLivros() {
+        async function fetchLivros(){
             const livroAPI = await getLivros()
-            setLivros(livroAPI) 
+            setLivros(livroAPI)
         }
-        
+
+        async function insertFavorito(id){
+            await postFavorito(id)
+            alert(`Livro de id:${id} inserido!`)
+        }
+
     return (
         <PesquisaContainer>
             <Titulo>Já sabe por onde começar?</Titulo>
@@ -69,11 +73,10 @@ function Pesquisa() {
 
                 }}
             />
-
             {livrosPesquisados.map(livro => (
-                <Resultado>
+                <Resultado onClick={insertFavorito(livro.id)}>
                     <p>{livro.nome}</p>
-                    <img src={livro.src} />
+                    <img src={livro.src} alt="img" />
                 </Resultado> 
             ))}
 

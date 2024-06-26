@@ -1,5 +1,6 @@
 import express from 'express'
 import routerLivros from './routes/livrosRouter.js'
+import routerFavorito from './routes/favoritosRouter.js'
 import cors from 'cors'
 
 const app = express()
@@ -10,6 +11,9 @@ const port = 8000
 
 // Montagem do roteador "livros"
 app.use('/livros', routerLivros);
+
+// Montagem do roteador "livros"
+app.use('/favoritos', routerFavorito);
 
 // Iniciar o servidor
 app.listen(port, () =>{
